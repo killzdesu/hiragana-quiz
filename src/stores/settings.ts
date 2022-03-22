@@ -1,4 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import { ComputedRef } from 'vue'
 
 interface SettingType {
   alphabets: Array<boolean>
@@ -16,11 +17,11 @@ export const useSettingStore = defineStore('setting', () => {
     settings.alphabets = newSetting
   }
 
-  const settingsIndex: Array<number | null> = computed(() => {
+  const settingsIndex: ComputedRef<Array<number>> = computed(() => {
     let arr = settings.alphabets.map((el, id)=>{
       return (el ? id : null)
     })
-    return arr.filter(el => el!=null)
+    return arr.filter(el => el!=null) as Array<number>
   })
 
   return {
