@@ -16,8 +16,16 @@ export const useSettingStore = defineStore('setting', () => {
     settings.alphabets = newSetting
   }
 
+  const settingsIndex: Array<number | null> = computed(() => {
+    let arr = settings.alphabets.map((el, id)=>{
+      return (el ? id : null)
+    })
+    return arr.filter(el => el!=null)
+  })
+
   return {
     settings,
+    settingsIndex,
     setNewSetting
   }
 })

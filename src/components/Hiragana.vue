@@ -4,7 +4,6 @@ import { useSettingStore } from '~/stores/settings'
 
 const setting = useSettingStore()
 const letterNum: Ref<number> = ref(51)
-const checkedSetting: Ref<Array<any>> = ref([])
 
 const hiraganaTable = computed(() => {
   let table = Hiragana.slice(0, letterNum.value)
@@ -15,6 +14,8 @@ const romanjiTable = computed(() => {
   return table
 })
 
+const defaultSetting = setting.settingsIndex.map(id=>romanjiTable.value[id])
+const checkedSetting: Ref<Array<any>> = ref(defaultSetting)
 const settingArray = computed(() => {
   let settings = []
   for (const el of romanjiTable.value) {
@@ -25,6 +26,11 @@ const settingArray = computed(() => {
   }
   return settings
 })
+
+// onUpdated(()=>{
+//   const defaultSetting = setting.settingsIndex.map(id=>romanjiTable.value[id])
+//   checkedSetting.value = defaultSetting
+// })
 
 watchEffect(()=>{
   setting.setNewSetting(settingArray)
@@ -39,11 +45,20 @@ const clickAll = ()=> {
 
 const clickRow = (row: string) => {
   const index = romanjiTable.value.indexOf(row)
-  const rowContent = romanjiTable.value.slice(index, index+5)
+  const rowContent = romanjiTable.value.slice(index, index+5).filter(el=>el!='-')
   if (checkedSetting.value.includes(row)) {
     checkedSetting.value = checkedSetting.value.filter(el=>!rowContent.includes(el))
   } else {
     checkedSetting.value = [...new Set([...checkedSetting.value, ...rowContent])]
+  }
+}
+
+const router = useRouter()
+const clickQuiz = () => {
+  if (checkedSetting.value.length != 0) {
+    router.push(`/quiz/`)
+  } else {
+    alert('select at least 1 hiragana!')
   }
 }
 
@@ -76,5 +91,5 @@ const clickRow = (row: string) => {
   <button btn @click="clickAll">
     All
   </button>
-  <button btn bg-red-500 mx-2>Quiz</button>
+  <button btn bg-red-500 mx-2 @click="clickQuiz">Quiz</button>
 </template>
