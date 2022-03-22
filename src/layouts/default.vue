@@ -1,3 +1,9 @@
+<script lang="ts">
+// import '@unocss/reset/normalize.css'
+import '@unocss/reset/sanitize/sanitize.css'
+import '@unocss/reset/sanitize/assets.css'
+
+</script>
 <template>
   <main class="px-4 py-10 text-center text-gray-700 dark:text-gray-200">
     <div text-4xl>
@@ -14,3 +20,6 @@
     </div>
   </main>
 </template>
+
+<style>
+</style>

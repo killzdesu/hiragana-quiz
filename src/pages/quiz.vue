@@ -1,23 +1,15 @@
 <script setup lang="ts">
 import { Hiragana, Romanji } from '~/composables/useHiragana'
 import { useSettingStore } from '~/stores/settings'
+import { Ref } from 'vue'
 
 const setting = useSettingStore()
 const router = useRouter()
 
 if (setting.settingsIndex.length == 0) router.push('/')
 
-// const allowedLetterIndex = computed(()=>{
-//   let arr: Array<number | null> = []
-//   arr = setting.settings.alphabets.map((el, id)=>{
-//     if (el) return id
-//     else return null
-//   })
-//   return arr.filter(el=>el)
-// })
 
-
-const quizNumber = ref(0)
+const quizNumber: Ref<number> = ref(0)
 const answer = ref('')
 
 const quiz = computed(() => {
@@ -37,7 +29,6 @@ const checkAnswer = () => {
     checkedAnswer.value = 'false'
 }
 const inputref = ref(null)
-
 const newQuiz = () => {
   const oldQuiz = quizNumber.value
   let arr = setting.settingsIndex.filter(el=>el!=oldQuiz)
@@ -45,7 +36,7 @@ const newQuiz = () => {
   // Reset all values
   checkedAnswer.value = ''
   answer.value = ''
-  quizNumber.value = arr[Math.floor(Math.random()*arr.length)]
+  quizNumber.value = arr[Math.floor(Math.random()*arr.length)] ?? 0
 }
 
 // Not working -> Focus text input after new quiz
@@ -73,16 +64,15 @@ onMounted(()=>{
     <span v-if="checkedAnswer!=''" text-3xl mx-2>{{ quiz.romanji }}</span>
   </div>
   <input type="text" v-model="answer"
-    :disabled="checkedAnswer!=''"
+    :readonly="checkedAnswer!=''"
     :class="inputClass"
     ref="inputref"
     placeholder="Answer"
     autocomplete="false"
-    text-black
     p="x4 y2" my-6
     w="1/3 md:1/5 lg:1/8"
-    text-center
     border="~ rounded gray-200"
+    text="center dark-900"
     @keydown.enter="checkAnswer"/>
   <button btn bg-pink-500 mx-2 @click="checkAnswer">check</button>
   <div v-if="checkedAnswer!=''">
@@ -95,10 +85,10 @@ onMounted(()=>{
 
 <style>
 .correct {
-  @apply bg-green-400 text-white
+  @apply bg-green-500 text-light-100;
 }
 .wrong {
-  @apply bg-red-600 text-white
+  @apply bg-red-600 text-light-100;
 }
 
 </style>
