@@ -78,6 +78,7 @@ onMounted(()=>{
     ref="inputref"
     placeholder="Answer"
     autocomplete="false"
+    text-black-500
     p="x4 y2" my-6
     w="1/3 md:1/5 lg:1/8"
     text-center
