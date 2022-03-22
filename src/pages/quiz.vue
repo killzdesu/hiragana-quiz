@@ -78,7 +78,7 @@ onMounted(()=>{
     ref="inputref"
     placeholder="Answer"
     autocomplete="false"
-    text-black-500
+    text-black
     p="x4 y2" my-6
     w="1/3 md:1/5 lg:1/8"
     text-center
@@ -95,10 +95,10 @@ onMounted(()=>{
 
 <style>
 .correct {
-  @apply bg-green-300
+  @apply bg-green-400 text-white
 }
 .wrong {
-  @apply bg-red-600 text-white-500
+  @apply bg-red-600 text-white
 }
 
 </style>
